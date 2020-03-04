@@ -120,6 +120,12 @@ func main() {
 			Value:  ".",
 			EnvVar: "PLUGIN_CONTEXT",
 		},
+		cli.StringFlag{
+			Name:   "name",
+			Usage:  "default tag name",
+			EnvVar: "PLUGIN_NAME,DRONE_COMMIT_SHA",
+			Value:  "00000000",
+		},
 		cli.StringSliceFlag{
 			Name:     "tags",
 			Usage:    "build tags",
@@ -247,7 +253,8 @@ func run(c *cli.Context) error {
 		},
 		Build: docker.Build{
 			Remote:      c.String("remote.url"),
-			Name:        c.String("commit.sha"),
+			Name:        c.String("name"),
+			Commit:      c.String("commit.sha"),
 			Dockerfile:  c.String("dockerfile"),
 			Context:     c.String("context"),
 			Tags:        c.StringSlice("tags"),
